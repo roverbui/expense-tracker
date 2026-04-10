@@ -19,16 +19,41 @@ public class CategoryController {
     @Autowired
     private ExpenseRepository expenseRepository;
 
+//  GET ALL CATEGORIES
+    @GetMapping
+    public List<Category> getAllCategories() {
+
+        return categoryRepository.findAll();
+    }
+
+//  GET A CATEGORY BY ID
+    @GetMapping("/{id}")
+    public Category getCategoryById(@PathVariable Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+    }
+
+//  CREATE A CATEGORY
     @PostMapping
     public Category createCategory(@RequestBody Category category) {
         return categoryRepository.save(category);
     }
 
-    @GetMapping
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+
+// UPDATE A CATEGORY BY ID
+    @PutMapping("/{id}")
+    public Category updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+
+    Category category = categoryRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Category not found"));
+
+    category.setName(updatedCategory.getName());
+
+    return categoryRepository.save(category);
     }
 
+
+//    DELETE A CATEGORY BY ID
     @DeleteMapping("/{id}")
     public String deleteCategory(@PathVariable Long id) {
 

@@ -42,6 +42,7 @@ public class AuthController {
         user.setRole("USER");
 
         userRepository.save(user);
+        System.out.println("User " + user.getName() + "created");
 
         return "redirect:/login";
     }
@@ -67,7 +68,7 @@ public class AuthController {
     }
 
     // ---------- LOGOUT ----------
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
